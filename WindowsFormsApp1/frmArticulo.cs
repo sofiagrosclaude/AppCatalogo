@@ -22,23 +22,32 @@ namespace WindowsFormsApp1
 
         private void frmArticulo_Load(object sender, EventArgs e)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            listaArticulo = negocio.listar();
-            dgvArticulos.DataSource = listaArticulo;
-            dgvArticulos.Columns["ImagenUrl"].Visible = false;
-            //dgvArticulos.Columns["IdCategoria"].Visible = false;
-            //dgvArticulos.Columns["IdMarca"].Visible = false;
-            cargarImagen(listaArticulo[0].ImagenUrl);
+            cargar();
         }
 
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
             Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
             cargarImagen(seleccionado.ImagenUrl);
-
-            
         }
 
+        private void cargar()
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            try
+            {
+                listaArticulo = negocio.listar();
+                dgvArticulos.DataSource = listaArticulo;
+                dgvArticulos.Columns["ImagenUrl"].Visible = false;
+                //dgvArticulos.Columns["IdCategoria"].Visible = false;
+                //dgvArticulos.Columns["IdMarca"].Visible = false;
+                cargarImagen(listaArticulo[0].ImagenUrl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
         private void cargarImagen(string imagen)
         {
             try
@@ -46,10 +55,16 @@ namespace WindowsFormsApp1
                 pbArticulos.Load(imagen);
             }
             catch
-            {
-
+            {   
                 pbArticulos.Load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4QOjaXf9Kp3OBcQOQoOqF17obRPZ759bXsSSZIboGEcT6NvAmLSuYeqxYSUDoGQtb_4U&usqp=CAU");
             }
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            frmAltaArticulo alta = new frmAltaArticulo();
+            alta.ShowDialog();
+            cargar();
         }
     }
 }

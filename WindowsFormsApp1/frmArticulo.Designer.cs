@@ -35,6 +35,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmArticulo));
             this.dgvArticulos = new System.Windows.Forms.DataGridView();
             this.pbArticulos = new System.Windows.Forms.PictureBox();
+            this.btnAgregar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbArticulos)).BeginInit();
             this.SuspendLayout();
@@ -62,10 +63,12 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Goldenrod;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgvArticulos.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvArticulos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvArticulos.Location = new System.Drawing.Point(140, 94);
             this.dgvArticulos.Margin = new System.Windows.Forms.Padding(4);
-            this.dgvArticulos.MaximumSize = new System.Drawing.Size(645, 139);
-            this.dgvArticulos.MinimumSize = new System.Drawing.Size(645, 139);
+            this.dgvArticulos.MaximumSize = new System.Drawing.Size(660, 139);
+            this.dgvArticulos.MinimumSize = new System.Drawing.Size(660, 139);
+            this.dgvArticulos.MultiSelect = false;
             this.dgvArticulos.Name = "dgvArticulos";
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.Khaki;
@@ -81,7 +84,7 @@
             this.dgvArticulos.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.dgvArticulos.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.Goldenrod;
             this.dgvArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvArticulos.Size = new System.Drawing.Size(650, 139);
+            this.dgvArticulos.Size = new System.Drawing.Size(660, 139);
             this.dgvArticulos.TabIndex = 0;
             this.dgvArticulos.SelectionChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
             // 
@@ -96,12 +99,26 @@
             this.pbArticulos.SizeModeChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
             this.pbArticulos.Resize += new System.EventHandler(this.frmArticulo_Load);
             // 
+            // btnAgregar
+            // 
+            this.btnAgregar.BackColor = System.Drawing.Color.Goldenrod;
+            this.btnAgregar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
+            this.btnAgregar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnAgregar.Location = new System.Drawing.Point(542, 258);
+            this.btnAgregar.Name = "btnAgregar";
+            this.btnAgregar.Size = new System.Drawing.Size(75, 31);
+            this.btnAgregar.TabIndex = 2;
+            this.btnAgregar.Text = "Agregar";
+            this.btnAgregar.UseVisualStyleBackColor = false;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
+            // 
             // frmArticulo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(933, 588);
+            this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.pbArticulos);
             this.Controls.Add(this.dgvArticulos);
             this.Font = new System.Drawing.Font("Nirmala UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -121,6 +138,7 @@
 
         private System.Windows.Forms.DataGridView dgvArticulos;
         private System.Windows.Forms.PictureBox pbArticulos;
+        private System.Windows.Forms.Button btnAgregar;
     }
 }
 
