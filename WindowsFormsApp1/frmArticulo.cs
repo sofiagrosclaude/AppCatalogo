@@ -38,7 +38,10 @@ namespace WindowsFormsApp1
             {
                 listaArticulo = negocio.listar();
                 dgvArticulos.DataSource = listaArticulo;
+                dgvArticulos.Columns["Id"].Visible = false;
                 dgvArticulos.Columns["ImagenUrl"].Visible = false;
+                dgvArticulos.Columns["Precio"].DefaultCellStyle.Format = "0.00";
+
                 //dgvArticulos.Columns["IdCategoria"].Visible = false;
                 //dgvArticulos.Columns["IdMarca"].Visible = false;
                 cargarImagen(listaArticulo[0].ImagenUrl);
@@ -65,6 +68,37 @@ namespace WindowsFormsApp1
             frmAltaArticulo alta = new frmAltaArticulo();
             alta.ShowDialog();
             cargar();
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            Articulo seleccionado;
+            seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+            frmAltaArticulo modificar = new frmAltaArticulo(seleccionado);
+            modificar.ShowDialog();
+            cargar();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            Articulo seleccionado;
+            try
+            {
+                DialogResult respuesta = MessageBox.Show("¿Desea eliminar el artículo seleccionado?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if(respuesta == DialogResult.Yes) 
+                {
+                    seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                    negocio.eliminar(seleccionado.Id);
+                    cargar();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }
