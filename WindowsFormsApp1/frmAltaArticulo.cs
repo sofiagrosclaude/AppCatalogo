@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dominio;
 using Negocio;
+using System.Configuration;
+using System.CodeDom;
 
 namespace WindowsFormsApp1
 {
     public partial class frmAltaArticulo : Form
     {
-        private Articulo articulo = null;
+        public Articulo articulo = null;
+        private OpenFileDialog archivo = null;
         public frmAltaArticulo()
         {
             InitializeComponent();
@@ -34,9 +38,7 @@ namespace WindowsFormsApp1
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-
             ArticuloNegocio negocio = new ArticuloNegocio();
-
             try
             {   
                 if(articulo == null)
@@ -44,27 +46,34 @@ namespace WindowsFormsApp1
 
                 articulo.Codigo = txtCodigo.Text;
                 articulo.Nombre = txtNombre.Text;
+                articulo.Descripcion = txtDescripción.Text;
                 articulo.Precio = decimal.Parse(txtPrecio.Text);
                 articulo.ImagenUrl = txtImagenUrl.Text;
                 articulo.Categoria = (Categoria)cmbCategoria.SelectedItem;
                 articulo.Marca = (Marca)cmbMarca.SelectedItem;
+
                 
                 if(articulo.Id != 0)
                 {
                     negocio.modificar(articulo);
-                    MessageBox.Show("Modificado exitosamente");
+                    MessageBox.Show("Modificado exitosamente!");
                 }
                 else
                 {
                     negocio.agregar(articulo);
-                    MessageBox.Show("Agregado exitosamente");
+                    MessageBox.Show("Agregado exitosamente!");
                 }
-                Close();
+                
+                if(archivo != null && (txtImagenUrl.Text.ToUpper().Contains("HTTP")))
+                    File.Copy(archivo.FileName, ConfigurationManager.AppSettings["ImágenesApp"] + archivo.SafeFileName);
+                
+                
+                 Close();
                 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Ingrese el precio, por favor");
             }
         }
 
@@ -85,12 +94,12 @@ namespace WindowsFormsApp1
                 {
                     txtCodigo.Text = articulo.Codigo;
                     txtNombre.Text = articulo.Nombre;
+                    txtDescripción.Text = articulo.Descripcion;
                     txtImagenUrl.Text = articulo.ImagenUrl;
                     cargarImagen(articulo.ImagenUrl);
                     txtPrecio.Text = articulo.Precio.ToString("0.00");
                     cmbCategoria.SelectedValue = articulo.Categoria.Id;
                     cmbMarca.SelectedValue = articulo.Marca.Id;
-
 
                 }
             }
@@ -108,12 +117,22 @@ namespace WindowsFormsApp1
         {
             try
             {
-                pbArticulo.Load(imagen);
-                
+                pbArticulos.Load(imagen); 
             }
             catch
             {
-                pbArticulo.Load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4QOjaXf9Kp3OBcQOQoOqF17obRPZ759bXsSSZIboGEcT6NvAmLSuYeqxYSUDoGQtb_4U&usqp=CAU");
+                pbArticulos.Load("https://grupoa2.com/wp-content/uploads/woocommerce-placeholder.png");
+            }
+        }
+
+        private void btnCargarImagen_Click(object sender, EventArgs e)
+        {
+            archivo = new OpenFileDialog();
+            archivo.Filter = "jpg|*.jpg;|png|*.png";
+            if(archivo.ShowDialog() == DialogResult.OK)
+            {
+                txtImagenUrl.Text = archivo.FileName;
+                cargarImagen(archivo.FileName);
             }
         }
     }

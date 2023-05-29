@@ -20,9 +20,6 @@ namespace Dominio
   
         public decimal Precio { get; set; }
         
-        //public int IdCategoria { get; set; }
-        
-        //public int IdMarca { get; set; }
         [DisplayName("Categoría")]
         public Categoria Categoria { get; set; }
         public Marca Marca { get; set; }
